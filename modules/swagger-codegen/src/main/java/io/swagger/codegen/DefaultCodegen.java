@@ -1413,6 +1413,8 @@ public class DefaultCodegen {
             }
             // parent model
             Model parent = (Model) composed.getParent();
+            addProperties(properties, required, model, allDefinitions);
+
 
             // interfaces (intermediate models)
             if (composed.getInterfaces() != null) {
@@ -1559,7 +1561,14 @@ public class DefaultCodegen {
             Model interfaceModel = allDefinitions.get(interfaceRef);
             addProperties(properties, required, interfaceModel, allDefinitions);
         } else if (model instanceof ComposedModel) {
-            for (Model component :((ComposedModel) model).getAllOf()) {
+        	ComposedModel composedModel = (ComposedModel) model;
+            if (model.getProperties() != null) {
+                properties.putAll(model.getProperties());
+            }
+            if (composedModel.getRequired() != null) {
+                required.addAll(composedModel.getRequired());
+            }
+            for (Model component : composedModel.getAllOf()) {
                 addProperties(properties, required, component, allDefinitions);
             }
         }
