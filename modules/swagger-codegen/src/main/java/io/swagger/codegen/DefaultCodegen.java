@@ -1558,8 +1558,10 @@ public class DefaultCodegen {
             }
         } else if (model instanceof RefModel) {
             String interfaceRef = ((RefModel) model).getSimpleRef();
-            Model interfaceModel = allDefinitions.get(interfaceRef);
-            addProperties(properties, required, interfaceModel, allDefinitions);
+			if (allDefinitions != null) {
+				Model interfaceModel = allDefinitions.get(interfaceRef);
+				addProperties(properties, required, interfaceModel, allDefinitions);
+			}
         } else if (model instanceof ComposedModel) {
         	ComposedModel composedModel = (ComposedModel) model;
             if (model.getProperties() != null) {
